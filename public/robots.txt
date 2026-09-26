@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://siteforge.dev/sitemap.xml
