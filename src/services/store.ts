@@ -111,6 +111,12 @@ function mapSettings(s: DbSettings): AdminSettings {
   };
 }
 
+export const DEFAULT_ADMIN_SETTINGS: AdminSettings = {
+  contactEmail: 'webdesign.org06@gmail.com',
+  whatsappNumber: '+91 8700844720',
+  adminPin: 'admin123',
+};
+
 // Pre-seeded projects for "Our Work" section
 // ─── Listener system (for reactive UI updates after mutations) ────────────────
 
@@ -356,13 +362,17 @@ class Store {
   // ─── Settings ──────────────────────────────────────────────────────────────
 
   public async getSettings(): Promise<AdminSettings> {
-    const { data, error } = await supabase
-      .from('admin_settings')
-      .select('*')
-      .eq('id', 1)
-      .single();
-    if (error) throw new Error(error.message);
-    return mapSettings(data as DbSettings);
+    try {
+      const { data, error } = await supabase
+        .from('admin_settings')
+        .select('*')
+        .eq('id', 1)
+        .single();
+      if (error || !data) return DEFAULT_ADMIN_SETTINGS;
+      return mapSettings(data as DbSettings);
+    } catch {
+      return DEFAULT_ADMIN_SETTINGS;
+    }
   }
 
   public async updateSettings(settings: AdminSettings): Promise<void> {

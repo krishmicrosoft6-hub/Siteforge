@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MessageSquare, Send, CheckCircle2, AlertCircle, RefreshCw } from 'lucide-react';
 import type { AdminSettings } from '../types';
-import { siteStore } from '../services/store';
+import { siteStore, DEFAULT_ADMIN_SETTINGS } from '../services/store';
 import { useAuth } from '../context/AuthContext';
 
 export const ContactSection: React.FC = () => {
   const { user, profile } = useAuth();
-  const [settings, setSettings] = useState<AdminSettings | null>(null);
+  const [settings, setSettings] = useState<AdminSettings>(DEFAULT_ADMIN_SETTINGS);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -60,8 +60,6 @@ export const ContactSection: React.FC = () => {
     }
   };
 
-  if (!settings) return null;
-
   return (
     <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8 relative bg-slate-950/70 border-t border-white/5">
       <div className="max-w-7xl mx-auto">
@@ -89,6 +87,21 @@ export const ContactSection: React.FC = () => {
                   <span className="text-xs text-slate-400 block">Email Us</span>
                   <a href={`mailto:${settings.contactEmail}`} className="text-sm font-bold text-white hover:text-orange-400 font-mono">
                     {settings.contactEmail}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400">
+                  <Phone className="w-6 h-6" />
+                </div>
+                <div>
+                  <span className="text-xs text-slate-400 block">Direct Call</span>
+                  <a 
+                    href={`tel:${settings.whatsappNumber.replace(/[^0-9+]/g, '')}`} 
+                    className="text-sm font-bold text-white hover:text-blue-400 font-mono"
+                  >
+                    {settings.whatsappNumber}
                   </a>
                 </div>
               </div>

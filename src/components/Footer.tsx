@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Hammer, Shield, Lock } from 'lucide-react';
+import { Hammer, Shield, Lock, Mail, Phone } from 'lucide-react';
 import siteLogo from '../assets/logo.png';
 
 interface FooterProps {
@@ -61,6 +61,27 @@ export const Footer: React.FC<FooterProps> = ({ onOpenRequest, onOpenAdmin }) =>
             <p className="text-xs text-slate-400 max-w-sm leading-relaxed">
               Professional websites for businesses, shops, portfolios, startups and ideas of every kind. Built with custom architecture and priority speed delivery options.
             </p>
+
+            <div className="pt-2 space-y-2 text-xs">
+              <a
+                href="mailto:webdesign.org06@gmail.com"
+                className="flex items-center gap-2.5 text-slate-300 hover:text-blue-400 transition-colors font-mono"
+              >
+                <div className="w-6 h-6 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+                  <Mail className="w-3.5 h-3.5" />
+                </div>
+                <span>webdesign.org06@gmail.com</span>
+              </a>
+              <a
+                href="tel:+918700844720"
+                className="flex items-center gap-2.5 text-slate-300 hover:text-emerald-400 transition-colors font-mono"
+              >
+                <div className="w-6 h-6 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                  <Phone className="w-3.5 h-3.5" />
+                </div>
+                <span>+91 8700844720</span>
+              </a>
+            </div>
           </div>
 
           {/* Quick Navigation Links */}
