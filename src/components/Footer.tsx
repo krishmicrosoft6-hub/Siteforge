@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Hammer, Shield, Lock } from 'lucide-react';
+import siteLogo from '../assets/logo.png';
 
 interface FooterProps {
   onOpenRequest: () => void;
@@ -8,6 +9,7 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ onOpenRequest, onOpenAdmin }) => {
   const [activeLegalModal, setActiveLegalModal] = useState<'privacy' | 'terms' | null>(null);
+  const [logoFailed, setLogoFailed] = useState(false);
 
   const navLinks = [
     { name: 'Home', href: '#home' },
@@ -26,12 +28,29 @@ export const Footer: React.FC<FooterProps> = ({ onOpenRequest, onOpenAdmin }) =>
           
           {/* Brand Info */}
           <div className="md:col-span-5 space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-orange-500 to-amber-500 flex items-center justify-center shadow-lg shadow-orange-500/20">
-                <Hammer className="w-5 h-5 text-slate-950 font-bold" />
-              </div>
-              <span className="text-2xl font-extrabold text-white">
-                Site<span className="text-orange-500">Forge</span>
+            <div className="flex items-center gap-3">
+              {!logoFailed ? (
+                <img
+                  src={siteLogo}
+                  alt="SiteForge Logo"
+                  className="h-10 w-auto object-contain rounded-lg"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.dataset.triedPublic) {
+                      target.dataset.triedPublic = 'true';
+                      target.src = `${import.meta.env.BASE_URL}logo.png`;
+                    } else {
+                      setLogoFailed(true);
+                    }
+                  }}
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-violet-600 flex items-center justify-center shadow-lg shadow-blue-500/20 text-white font-extrabold text-xl">
+                  S
+                </div>
+              )}
+              <span className="text-2xl font-extrabold text-white tracking-tight">
+                Site<span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Forge</span>
               </span>
             </div>
 

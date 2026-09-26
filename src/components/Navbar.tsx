@@ -1,6 +1,7 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowRight, Shield, LogIn, User, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import siteLogo from '../assets/logo.png';
 
 interface NavbarProps {
   onOpenRequest: () => void;
@@ -32,6 +33,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenRequest, onOpenAdmin, onOp
 
   const displayName = profile?.full_name || user?.email?.split('@')[0] || 'User';
 
+  const [logoError, setLogoError] = useState(false);
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -44,11 +47,31 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenRequest, onOpenAdmin, onOp
 
         {/* Brand Logo */}
         <a href="#home" className="flex items-center gap-2 group">
-          <img
-            src="/logo.png"
-            alt="SiteForge Logo"
-            className="h-10 w-auto object-contain group-hover:scale-105 transition-transform duration-200"
-          />
+          {logoError ? (
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-violet-600 flex items-center justify-center shadow-lg shadow-blue-500/25 text-white font-extrabold text-xl">
+                S
+              </div>
+              <span className="text-xl font-extrabold text-white tracking-tight">
+                Site<span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Forge</span>
+              </span>
+            </div>
+          ) : (
+            <img
+              src={siteLogo}
+              alt="SiteForge Logo"
+              className="h-10 sm:h-11 w-auto object-contain rounded-lg group-hover:scale-105 transition-transform duration-200"
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (!target.dataset.triedPublic) {
+                  target.dataset.triedPublic = 'true';
+                  target.src = `${import.meta.env.BASE_URL}logo.png`;
+                } else {
+                  setLogoError(true);
+                }
+              }}
+            />
+          )}
         </a>
 
         {/* Desktop Navigation */}
